@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS camping_database;
 CREATE DATABASE camping_database;
 USE camping_database;
 
+-- Creation of table customer, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS customer (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fname VARCHAR(20) NOT NULL,
@@ -11,16 +12,19 @@ CREATE TABLE IF NOT EXISTS customer (
     campingKey BOOLEAN DEFAULT FALSE
 );
 
+-- Creation of table discount, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS discount (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     discountPrice INT NOT NULL DEFAULT 0
 );
 
+-- Creation of table campPosition, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS campPosition (
     id CHAR(2) NOT NULL PRIMARY KEY,
     adjacent_to VARCHAR(10) NOT NULL
 );
 
+-- Creation of table payment, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS payment (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     paymentDate DATE NOT NULL,
@@ -31,6 +35,7 @@ CREATE TABLE IF NOT EXISTS payment (
     FOREIGN KEY (discountId) REFERENCES discount(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table visit, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS visit (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     cancel BOOLEAN DEFAULT FALSE,
@@ -47,6 +52,7 @@ CREATE TABLE IF NOT EXISTS visit (
     FOREIGN KEY (id_position) REFERENCES campPosition(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table feedback, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS feedback (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     feedback_date DATE,
@@ -55,6 +61,7 @@ CREATE TABLE IF NOT EXISTS feedback (
     FOREIGN KEY (id_visit) REFERENCES visit(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table equipment, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS equipment (
     id CHAR(2) NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -62,6 +69,7 @@ CREATE TABLE IF NOT EXISTS equipment (
     high_period_price INT NOT NULL
 );
 
+-- Creation of table associated_with, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS associated_with (
     paymentId INT NOT NULL,
     equipmentId CHAR(2) NOT NULL,
@@ -70,6 +78,7 @@ CREATE TABLE IF NOT EXISTS associated_with (
     FOREIGN KEY (equipmentId) REFERENCES equipment(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table room, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS room (
     id CHAR(2) NOT NULL PRIMARY KEY,
     roomType VARCHAR(30) NOT NULL,
@@ -78,6 +87,7 @@ CREATE TABLE IF NOT EXISTS room (
     FOREIGN KEY (id) REFERENCES campPosition(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table campsite_spot, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS campsite_spot (
     id CHAR(2) NOT NULL PRIMARY KEY,
     low_period_price INT NOT NULL,
@@ -85,16 +95,19 @@ CREATE TABLE IF NOT EXISTS campsite_spot (
     FOREIGN KEY (id) REFERENCES campPosition(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table personal_equipment, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS personal_equipment (
     id CHAR(2) NOT NULL PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES equipment(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table supplied_from_camping, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS supplied_from_camping (
     id CHAR(2) NOT NULL PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES equipment(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creation of table connected, if it doesn't already exist.
 CREATE TABLE IF NOT EXISTS connected (
     id_equipment CHAR(2) NOT NULL,
     id_visit INT NOT NULL,
@@ -103,6 +116,7 @@ CREATE TABLE IF NOT EXISTS connected (
     FOREIGN KEY (id_visit) REFERENCES visit(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Insertion of data in customer
 insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Colas', 'Russon', '903-518-0758', 'crusson0@ihg.com', false);
 insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Korrie', 'Mell', '953-553-3197', 'kmell1@comcast.net', true);
 insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Eugenio', 'De Few', '849-653-4616', 'edefew2@freewebs.com', true);
@@ -124,6 +138,7 @@ insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Con
 insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Dotti', 'Bilby', '175-295-3757', 'dbilbyi@fastcompany.com', false);
 insert into customer (fname, lname, phoneNumber, email, campingKey) values ('Jason', 'Kinrade', '776-346-1872', 'jkinradej@jugem.jp', true);
 
+-- Insertion of data in discount
 insert into discount (discountPrice) values (10);
 insert into discount (discountPrice) values (0);
 insert into discount (discountPrice) values (5);
@@ -145,6 +160,7 @@ insert into discount (discountPrice) values (20);
 insert into discount (discountPrice) values (15);
 insert into discount (discountPrice) values (10);
 
+-- Insertion of data in campPosition
 insert into campPosition (id, adjacent_to) values ('1', '2');
 insert into campPosition (id, adjacent_to) values ('2', '1,3');
 insert into campPosition (id, adjacent_to) values ('3', '2,4');
@@ -186,6 +202,7 @@ insert into campPosition (id, adjacent_to) values ('B3', 'B2,B4');
 insert into campPosition (id, adjacent_to) values ('B4', 'B3,B5');
 insert into campPosition (id, adjacent_to) values ('B5', 'B4');
 
+-- Insertion of data in room
 insert into room (id, roomType, low_period_price, high_period_price) values ('A1', 'triple', 50, 70);
 insert into room (id, roomType, low_period_price, high_period_price) values ('A2', 'single', 35, 55);
 insert into room (id, roomType, low_period_price, high_period_price) values ('A3', 'double', 40, 60);
@@ -197,6 +214,7 @@ insert into room (id, roomType, low_period_price, high_period_price) values ('B3
 insert into room (id, roomType, low_period_price, high_period_price) values ('B4', 'single', 35, 55);
 insert into room (id, roomType, low_period_price, high_period_price) values ('B5', 'single', 35, 55);
 
+-- Insertion of data in campsite_spot
 insert into campsite_spot (id, low_period_price, high_period_price) values ('1', 7, 15);
 insert into campsite_spot (id, low_period_price, high_period_price) values ('2', 7, 15);
 insert into campsite_spot (id, low_period_price, high_period_price) values ('3', 7, 15);
@@ -228,6 +246,7 @@ insert into campsite_spot (id, low_period_price, high_period_price) values ('28'
 insert into campsite_spot (id, low_period_price, high_period_price) values ('29', 7, 15);
 insert into campsite_spot (id, low_period_price, high_period_price) values ('30', 7, 15);
 
+-- Insertion of data in equipment
 insert into equipment (id, name, low_period_price, high_period_price) values ('CA', 'car', 2.5, 3);
 insert into equipment (id, name, low_period_price, high_period_price) values ('TR', 'trailer', 5, 6.5);
 insert into equipment (id, name, low_period_price, high_period_price) values ('BT', 'big tent', 5, 6);
@@ -235,6 +254,7 @@ insert into equipment (id, name, low_period_price, high_period_price) values ('S
 insert into equipment (id, name, low_period_price, high_period_price) values ('MO', 'motorcycle', 2, 2.5);
 insert into equipment (id, name, low_period_price, high_period_price) values ('PW', 'power', 4, 4);
 
+-- Insertion of data in personal_equipment
 insert into personal_equipment (id) values ('CA');
 insert into personal_equipment (id) values ('TR');
 insert into personal_equipment (id) values ('BT');
@@ -242,6 +262,7 @@ insert into personal_equipment (id) values ('ST');
 insert into personal_equipment (id) values ('MO');
 insert into personal_equipment (id) values ('PW');
 
+-- Insertion of data in supplied_from_camping
 insert into supplied_from_camping (id) values ('CA');
 insert into supplied_from_camping (id) values ('TR');
 insert into supplied_from_camping (id) values ('BT');
@@ -249,8 +270,9 @@ insert into supplied_from_camping (id) values ('ST');
 insert into supplied_from_camping (id) values ('MO');
 insert into supplied_from_camping (id) values ('PW');
 
--- 7 euro to atomo ypsili / 5 euro xamhlh enhlikas
--- 4.5 euro ypsili / 3 euro xamhlh paidi
+-- Insertion of data in payment
+-- 7 euro per person, high price / 5 euro low price
+-- 4.5 euro per kid, high price / 3 euro low price
 insert into payment (paymentDate, price, customerId, discountId) values ('2021-7-27', 230.00, 1, 1);
 insert into payment (paymentDate, price, customerId, discountId) values ('2021-9-12', 96.00, 2, 2);
 insert into payment (paymentDate, price, customerId, discountId) values ('2021-10-25', 147.00, 3, 3);
@@ -272,6 +294,7 @@ insert into payment (paymentDate, price, customerId, discountId) values ('2021-1
 insert into payment (paymentDate, price, customerId, discountId) values ('2020-3-6', 84.00, 19, 19);
 insert into payment (paymentDate, price, customerId, discountId) values ('2021-8-2', 167.50, 20, 20);
 
+-- Insertion of data in visit
 insert into visit (cancel, arrival_date, departure_date, num_of_people,id_payment, id_customer, id_discount, id_position) values (false,'2020-7-16','2020-7-21', 4, 1, 1, 1, '1');
 insert into visit (cancel, arrival_date, departure_date, num_of_people,id_payment, id_customer, id_discount, id_position) values (false,'2021-9-8','2021-9-12', 3, 2, 2, 2, '3');
 insert into visit (cancel, arrival_date, departure_date, num_of_people,id_payment, id_customer, id_discount, id_position) values (false,'2021-10-18', '2021-10-25', 2, 3, 3, 3, '7');
@@ -293,6 +316,7 @@ insert into visit (cancel, arrival_date, departure_date, num_of_people,id_paymen
 insert into visit (cancel, arrival_date, departure_date, num_of_people,id_payment, id_customer, id_discount, id_position) values (false,'2020-3-2','2020-3-6', 2, 19, 19, 19, '19');
 insert into visit (cancel, arrival_date, departure_date, num_of_people,id_payment, id_customer, id_discount, id_position) values (false,'2021-7-27','2021-8-1', 4, 20, 20, 20, '27');
 
+-- Insertion of data in connected
 insert into connected (id_equipment, id_visit) values ('CA', 1);
 insert into connected (id_equipment, id_visit) values ('TR', 10);
 insert into connected (id_equipment, id_visit) values ('ST', 13);
@@ -316,6 +340,7 @@ insert into connected (id_equipment, id_visit) values ('TR', 2);
 insert into connected (id_equipment, id_visit) values ('ST', 19);
 insert into connected (id_equipment, id_visit) values ('PW', 20);
 
+-- Insertion of data in associated_with
 insert into associated_with (equipmentId ,paymentId) values ('CA', 1);
 insert into associated_with (equipmentId ,paymentId) values ('TR', 10);
 insert into associated_with (equipmentId ,paymentId) values ('ST', 13);
@@ -339,6 +364,7 @@ insert into associated_with (equipmentId ,paymentId) values ('TR', 2);
 insert into associated_with (equipmentId ,paymentId) values ('ST', 19);
 insert into associated_with (equipmentId ,paymentId) values ('PW', 20);
 
+-- Insertion of data in feedback
 insert into feedback(feedback_date,feedback,id_visit) values ('2021-11-3','Excellent Place!',3);
 insert into feedback(feedback_date,feedback,id_visit) values ('2021-05-6','The rooms were clean, very comfortable, and the staff was amazing.',5);
 insert into feedback(feedback_date,feedback,id_visit) values ('2020-03-8','The staff at this property are all great! They all go above and beyond to make your stay comfortable',6);
