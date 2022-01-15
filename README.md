@@ -10,6 +10,7 @@ Installing MySQL:
 https://youtu.be/OM4aZJW_Ojs
 
 Παραδείγματα χρήσης της εφαρμογής:
+
   Tο όνομα και η ημερομηνία όλων των κρατήσεων που δεν ακυρώθηκαν.
     SELECT fname,lname,arrival_date,departure_date
     FROM camping_database.visit as vi, camping_database.customer as cu
