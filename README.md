@@ -50,3 +50,6 @@ https://youtu.be/OM4aZJW_Ojs
    WHERE visit.id_customer = customer.id AND visit.id_position = campPosition.id;
     
 ![image](https://user-images.githubusercontent.com/63556263/149605034-45222bc8-99d9-4527-bd6b-dd3c5e312013.png)
+
+
+Προσοχή: Για να τρέξει ο κώδικας, πρέπει να βάλετε τα προσωπικά σας στοιχεία στη σειρά του κώδικα 403. Διαφοροποιείτε ανάλογα με το καθένα.
